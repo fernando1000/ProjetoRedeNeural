@@ -26,6 +26,7 @@ class RNA:
 
     def treinar(entradas, respostas_corretas, pesos, taxa_aprendizagem):
         erro_total = 1
+        pesos_ideal = pesos
         while (erro_total != 0):
             erro_total = 0
             for i in range(len(respostas_corretas)):
@@ -35,6 +36,16 @@ class RNA:
                 erro_total = erro_total + erro
                 for j in range(len(pesos)):
                     pesos[j] = pesos[j] + (taxa_aprendizagem * entradas[i][j] * erro)
-                    print('peso atualizado: {}'.format(pesos[j]))
+                    print('posicao: {} peso atualizado: {}'.format(j, pesos[j]))
+                    pesos_ideal[j] = pesos[j]
+                print('total de erros: {}'.format(erro_total))
+        print('')
+        print('peso ideal: {}'.format(pesos_ideal))
+        return pesos_ideal
 
-            print('total de erros: {}'.format(erro_total))
+    def adivinhar(entradas_para_advinhar, pesos_ideal):
+        respostas_advinhacao = []
+        for i in range(len(entradas_para_advinhar)):
+            saida_calculada = RNA.calcula_saida(entradas_para_advinhar[i], pesos_ideal)
+            respostas_advinhacao.append(saida_calculada)
+        return respostas_advinhacao
